@@ -1,1 +1,251 @@
-(()=>{var t={665:()=>{!function(){"use strict";window.PureJSCarousel=function(t){this.carousel=document.querySelector(t.carousel),this.slides=this.carousel.querySelectorAll(t.slide),this.btnNext=this.carousel.querySelector(t.btnNext)||null,this.btnPrev=this.carousel.querySelector(t.btnPrev)||null,this.activeIndex=t.activeIndex||0,this.oneByOne=t.oneByOne||!1,this.speed=t.speed||400,this.delay=t.delay||0,this.effect=t.effect||"linear",this.infinite=t.infinite||!1,this.autoplay=t.autoplay||!1,this.autoplayDelay=t.autoplayDelay||400,this.autoplayDirection=t.autoplayDirection||"next",this.autoplayTimer=null,this.minPos=null,this.slidesToShow=null,this.maxIndex=null,this.isEnabled=null,this.build()},PureJSCarousel.prototype.build=function(){var t,e,i,s=this,n=window.innerWidth,a=window.innerHeight;s.minPos=s.carousel.offsetWidth-s.slides.length*s.slides[0].offsetWidth,s.slidesToShow=Math.round(s.carousel.offsetWidth/s.slides[0].offsetWidth),s.maxIndex=0,s.isEnabled=1,s.carousel.className+=" purejscarousel",s.slidesContainer=document.createElement("div"),s.carousel.insertBefore(s.slidesContainer,s.slides[0]),s.slidesContainer.className+=" purejscarousel-slides-container",!0===s.infinite?(s.currentXPos=-s.slides[0].offsetWidth*s.slides.length,s.slidesContainer.style.transform="translateX("+s.currentXPos+"px)",s.slidesContainer.style.width=s.slides[0].offsetWidth*s.slides.length*3+"px"):(s.currentXPos=0,s.slidesContainer.style.transform="translateX(0px)",s.slidesContainer.style.width=s.slides[0].offsetWidth*s.slides.length+"px"),("ontouchstart"in window||navigator.maxTouchPoints)&&(s.slidesContainer.addEventListener("touchstart",(function(t){this.setAttribute("data-start-touch-x",t.targetTouches[0].pageX),this.setAttribute("data-start-margin",parseInt(s.currentXPos))})),s.slidesContainer.addEventListener("touchmove",(function(t){this.setAttribute("data-active-touch-x",t.targetTouches[0].pageX),s.currentXPos=parseInt(this.getAttribute("data-start-margin"))+(parseInt(this.getAttribute("data-active-touch-x"))-parseInt(this.getAttribute("data-start-touch-x"))),this.style.transform="translateX("+s.currentXPos+"px)"})),s.slidesContainer.addEventListener("touchend",(function(){var t=parseInt(this.getAttribute("data-active-touch-x"))-parseInt(this.getAttribute("data-start-touch-x"))>0?"prev":"next",e=!0===s.oneByOne?s.slides[0].offsetWidth:s.carousel.offsetWidth;Math.abs(parseInt(this.getAttribute("data-active-touch-x"))-parseInt(this.getAttribute("data-start-touch-x")))>=e/2&&(!0===s.infinite||"next"===t&&s.activeIndex<s.maxIndex||"prev"===t&&s.activeIndex>0)?"next"===t?s.goToNextSlide():s.goToPrevSlide():("undefined"!==s.slidesContainer.style.transition&&(s.slidesContainer.style.transition="transform "+s.speed+"ms "+s.effect+" "+s.delay+"ms"),s.currentXPos=parseInt(this.getAttribute("data-start-margin")),s.slidesContainer.style.transform="translateX("+s.currentXPos+"px)","undefined"===s.slidesContainer.style.transition?"undefined"!==s.slidesContainer.style.transition&&(s.slidesContainer.style.transition=null):setTimeout((function(){"undefined"!==s.slidesContainer.style.transition&&(s.slidesContainer.style.transition=null)}),s.speed+s.delay))}))),s.dotsContainer=document.createElement("div"),s.carousel.insertBefore(s.dotsContainer,s.slides[0]),s.dotsContainer.className+=" purejscarousel-dots-container",s.dots=[],t=!0===s.oneByOne?!0===s.infinite?s.slides.length:(s.slidesContainer.offsetWidth-s.carousel.offsetWidth)/s.slides[0].offsetWidth+1:!0===s.infinite?Math.ceil(s.slidesContainer.offsetWidth/s.carousel.offsetWidth/3):Math.ceil(s.slidesContainer.offsetWidth/s.carousel.offsetWidth);for(e=0;e<t;e++){var o=document.createElement("button");o.className="purejscarousel-dot"+(0===e?" active":""),o.setAttribute("data-index",e),o.setAttribute("type","button"),l(o,s),s.dots.push(o),s.dotsContainer.appendChild(o)}for(s.maxIndex=t-1,s.btnPrev?s.btnPrev.setAttribute("data-is-native",1):(s.btnPrev=document.createElement("button"),s.btnPrev.setAttribute("class",""),s.btnPrev.setAttribute("type","button"),s.btnPrev.setAttribute("data-is-native",0),s.carousel.insertBefore(s.btnPrev,s.slides[0])),s.btnPrev.className+=" purejscarousel-btn purejscarousel-btn-prev",window.addEventListener?s.btnPrev.addEventListener("click",(function(){s.goToPrevSlide()})):window.attachEvent?s.btnPrev.attachEvent("onclick",(function(){s.goToPrevSlide()})):s.btnPrev.onclick=function(){s.goToPrevSlide()},0===s.activeIndex&&(s.btnPrev.disabled=!0),s.btnNext?s.btnNext.setAttribute("data-is-native",1):(s.btnNext=document.createElement("button"),s.btnNext.setAttribute("class",""),s.btnNext.setAttribute("type","button"),s.btnNext.setAttribute("data-is-native",0),s.carousel.insertBefore(s.btnNext,s.slides[0])),s.btnNext.className+=" purejscarousel-btn purejscarousel-btn-next",window.addEventListener?s.btnNext.addEventListener("click",(function(){s.goToNextSlide()})):window.attachEvent?s.btnNext.attachEvent("onclick",(function(){s.goToNextSlide()})):s.btnNext.onclick=function(){s.goToNextSlide()},s.activeIndex===s.maxIndex&&(s.btnNext.disabled=!0),e=0;e<s.slides.length;e++)s.slides[e].className+=" purejscarousel-slide",s.slidesContainer.appendChild(s.slides[e]);if(!0===s.infinite){for(e=0;e<s.slides.length;e++)(r=s.slides[e].cloneNode(!0)).className+=" purejscarousel-slide-clone",s.slidesContainer.appendChild(r);for(e=0;e<s.slides.length;e++){var r;(r=s.slides[e].cloneNode(!0)).className+=" purejscarousel-slide-clone",s.slidesContainer.insertBefore(r,s.slidesContainer.querySelectorAll(".purejscarousel-slide")[e])}}function l(t,e){window.addEventListener?t.addEventListener("click",(function(){e.goToSlide(parseInt(this.getAttribute("data-index")))})):window.attachEvent?t.attachEvent("onclick",(function(){e.goToSlide(parseInt(this.getAttribute("data-index")))})):t.onclick=function(){e.goToSlide(parseInt(this.getAttribute("data-index")))}}function d(){window.innerWidth===n&&window.innerHeight===a||(clearTimeout(i),i=setTimeout((function(){s.destroy(),s.build()}),400))}window.addEventListener?window.addEventListener("resize",d):window.attachEvent?window.attachEvent("onresize",d):window.onresize=d,s.autoplayTimer=!0===s.autoplay?"next"===s.autoplayDirection?setTimeout((function(){s.goToNextSlide()}),s.autoplayDelay):setTimeout((function(){s.goToPrevSlide()}),s.autoplayDelay):null},PureJSCarousel.prototype.enableControl=function(){var t;for(this.btnNext.disabled=!1,this.btnPrev.disabled=!1,t=0;t<this.dots.length;t++)this.dots[t].disabled=!1;this.dots[this.activeIndex].disabled=!0,!1===this.infinite&&(this.activeIndex===this.maxIndex&&(this.btnNext.disabled=!0),0===this.activeIndex&&(this.btnPrev.disabled=!0)),("ontouchstart"in window||navigator.maxTouchPoints)&&(this.slidesContainer.disabled=!1)},PureJSCarousel.prototype.disableControl=function(){var t;for(this.btnNext.disabled=!0,this.btnPrev.disabled=!0,t=0;t<this.dots.length;t++)this.dots[t].disabled=!0;("ontouchstart"in window||navigator.maxTouchPoints)&&(this.slidesContainer.disabled=!0)},PureJSCarousel.prototype.goToNextSlide=function(){var t;!1===this.btnNext.disabled&&(t=!0===this.infinite&&this.activeIndex+1>this.maxIndex?0:this.activeIndex+1,this.goToSlide(t,"next","dirBtn"))},PureJSCarousel.prototype.goToPrevSlide=function(){var t;!1===this.btnPrev.disabled&&(t=!0===this.infinite&&this.activeIndex-1<0?this.maxIndex:this.activeIndex-1,this.goToSlide(t,"prev","dirBtn"))},PureJSCarousel.prototype.goToSlide=function(t,e,i){var s,n,a=this,o=e||(t>this.activeIndex?"next":"prev"),r=this.slidesContainer.offsetWidth/(!0===this.infinite?3:1),l=!0===this.oneByOne?this.slides[0].offsetWidth:this.carousel.offsetWidth,d=!0===this.infinite?-r:Math.max(-l*this.activeIndex,this.minPos),u="dirBtn"===i?l:Math.abs(l*(this.activeIndex-t));function c(){var e;if("transition"in document.body.style&&(a.slidesContainer.style.transition=null,a.slidesContainer.removeEventListener("transitionend",c)),a.dots[a.activeIndex].className=a.dots[a.activeIndex].className.replace(" active",""),a.activeIndex=t,a.dots[a.activeIndex].className+=" active",!0===a.infinite){for(e=0;e<s;e++)"next"===o?a.slidesContainer.appendChild(a.slidesContainer.children[0]):a.slidesContainer.insertBefore(a.slidesContainer.lastElementChild,a.slidesContainer.children[0]);a.currentXPos=-a.slidesContainer.offsetWidth/3,a.slidesContainer.style.transform="translateX("+a.currentXPos+"px)"}a.enableControl(),a.autoplayTimer=!0===a.autoplay?"next"===a.autoplayDirection?setTimeout((function(){a.goToNextSlide()}),a.autoplayDelay):setTimeout((function(){a.goToPrevSlide()}),a.autoplayDelay):null}!1===this.oneByOne&&("next"===o&&t===this.maxIndex||"prev"===o&&this.activeIndex===this.maxIndex)&&(u=u+r-(this.maxIndex+1)*l),s=u/this.slides[0].offsetWidth,n=!0===this.infinite?"next"===o?d-u:d+u:"next"===o?Math.max(this.minPos,d-u):Math.min(0,d+u),this.disableControl(),"transition"in document.body.style&&(this.slidesContainer.style.transition="transform "+this.speed+"ms "+this.effect+" "+this.delay+"ms"),a.currentXPos=n,this.slidesContainer.style.transform="translateX("+a.currentXPos+"px)","transition"in document.body.style?this.slidesContainer.addEventListener("transitionend",c):c()},PureJSCarousel.prototype.startAutoplay=function(){_.enableControl(),_.autoplayTimer=!0===_.autoplay?"next"===_.autoplayDirection?setTimeout((function(){_.goToNextSlide()}),_.autoplayDelay):setTimeout((function(){_.goToPrevSlide()}),_.autoplayDelay):null},PureJSCarousel.prototype.stopAutoplay=function(){!0===_.autoplay&&(clearTimeout(_.autoplayTimer),_.autoplayTimer=null)},PureJSCarousel.prototype.destroy=function(){var t,e;if(1===this.isEnabled){if(this.isEnabled=0,this.carousel.className=this.carousel.className.replace(" purejscarousel",""),this.carousel.removeChild(this.dotsContainer),"1"===this.btnNext.getAttribute("data-is-native").toString()?this.btnNext.className=this.btnNext.className.replace(" purejscarousel-btn purejscarousel-btn-next",""):(this.carousel.removeChild(this.btnNext),this.btnNext=null),"1"===this.btnPrev.getAttribute("data-is-native").toString()?this.btnPrev.className=this.btnPrev.className.replace(" purejscarousel-btn purejscarousel-btn-prev",""):(this.carousel.removeChild(this.btnPrev),this.btnPrev=null),!0===this.infinite)for(t=this.carousel.querySelectorAll(".purejscarousel-slide-clone"),e=0;e<t.length;e++)t[e].parentNode.removeChild(t[e]);for(e=0;e<this.slides.length;e++)this.slides[e].className=this.slides[e].className.replace(" pure-js-carousel-slide",""),this.carousel.insertBefore(this.slides[e],this.slidesContainer);this.carousel.removeChild(this.slidesContainer),this.minPos=null,this.slidesToShow=null,this.maxIndex=null,this.isEnabled=null,!0===this.autoplay&&(clearTimeout(this.autoplayTimer),this.autoplayTimer=null)}}}(),new PureJSCarousel({carousel:".carousel",slide:".carousel-slide"})}},e={};function i(s){var n=e[s];if(void 0!==n)return n.exports;var a=e[s]={exports:{}};return t[s](a,a.exports,i),a.exports}i.n=t=>{var e=t&&t.__esModule?()=>t.default:()=>t;return i.d(e,{a:e}),e},i.d=(t,e)=>{for(var s in e)i.o(e,s)&&!i.o(t,s)&&Object.defineProperty(t,s,{enumerable:!0,get:e[s]})},i.o=(t,e)=>Object.prototype.hasOwnProperty.call(t,e),(()=>{"use strict";i(665)})()})();
+/*
+ * ATTENTION: The "eval" devtool has been used (maybe by default in mode: "development").
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
+/******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./src/index.js":
+/*!**********************!*\
+  !*** ./src/index.js ***!
+  \**********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _styles_normalize_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./styles/normalize.scss */ \"./src/styles/normalize.scss\");\n/* harmony import */ var _styles_font_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./styles/font.scss */ \"./src/styles/font.scss\");\n/* harmony import */ var _styles_variables_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./styles/variables.scss */ \"./src/styles/variables.scss\");\n/* harmony import */ var _styles_grid_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./styles/grid.scss */ \"./src/styles/grid.scss\");\n/* harmony import */ var _styles_common_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./styles/common.scss */ \"./src/styles/common.scss\");\n/* harmony import */ var _styles_components_buttons_buttons_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./styles/components/buttons/buttons.scss */ \"./src/styles/components/buttons/buttons.scss\");\n/* harmony import */ var _styles_components_main_banner_main_banner_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./styles/components/main_banner/main_banner.scss */ \"./src/styles/components/main_banner/main_banner.scss\");\n/* harmony import */ var _styles_components_socs_socs_scss__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./styles/components/socs/socs.scss */ \"./src/styles/components/socs/socs.scss\");\n/* harmony import */ var _styles_components_faq_faq_scss__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./styles/components/faq/faq.scss */ \"./src/styles/components/faq/faq.scss\");\n/* harmony import */ var _styles_components_carousel_carousel_scss__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./styles/components/carousel/carousel.scss */ \"./src/styles/components/carousel/carousel.scss\");\n/* harmony import */ var _styles_components_faq_block_faq_block_scss__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./styles/components/faq_block/faq_block.scss */ \"./src/styles/components/faq_block/faq_block.scss\");\n/* harmony import */ var _styles_components_reference_reference_scss__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./styles/components/reference/reference.scss */ \"./src/styles/components/reference/reference.scss\");\n/* harmony import */ var _styles_components_faq_page_faq_page_scss__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./styles/components/faq_page/faq_page.scss */ \"./src/styles/components/faq_page/faq_page.scss\");\n/* harmony import */ var _scripts_carousel__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./scripts/carousel */ \"./src/scripts/carousel.js\");\n/* harmony import */ var _scripts_carousel__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(_scripts_carousel__WEBPACK_IMPORTED_MODULE_13__);\n//styles\n\n\n\n\n //styles components\n\n\n\n\n\n\n\n\n //scripts\n\n\n\n//# sourceURL=webpack://my-webpack-project/./src/index.js?");
+
+/***/ }),
+
+/***/ "./src/scripts/carousel.js":
+/*!*********************************!*\
+  !*** ./src/scripts/carousel.js ***!
+  \*********************************/
+/***/ (() => {
+
+eval("/*\n * PureJSCarousel\n * Author: Vadym Shymko\n * Author URI: https://vadymshymko.github.io\n */\n(function () {\n  \"use strict\";\n\n  window.PureJSCarousel = function (settings) {\n    this.carousel = document.querySelector(settings.carousel);\n    this.slides = this.carousel.querySelectorAll(settings.slide);\n    this.btnNext = this.carousel.querySelector(settings.btnNext) || null;\n    this.btnPrev = this.carousel.querySelector(settings.btnPrev) || null;\n    this.activeIndex = settings.activeIndex || 0;\n    this.oneByOne = settings.oneByOne || false;\n    this.speed = settings.speed || 400;\n    this.delay = settings.delay || 0;\n    this.effect = settings.effect || \"linear\";\n    this.infinite = settings.infinite || false;\n    this.autoplay = settings.autoplay || false;\n    this.autoplayDelay = settings.autoplayDelay || 400;\n    this.autoplayDirection = settings.autoplayDirection || \"next\";\n    this.autoplayTimer = null;\n    this.minPos = null;\n    this.slidesToShow = null;\n    this.maxIndex = null;\n    this.isEnabled = null;\n    this.build();\n  };\n\n  PureJSCarousel.prototype.build = function () {\n    var _ = this,\n        dotsLength,\n        i,\n        windowResizeTimeout,\n        windowWidth = window.innerWidth,\n        windowHeight = window.innerHeight;\n\n    _.minPos = _.carousel.offsetWidth - _.slides.length * _.slides[0].offsetWidth;\n    _.slidesToShow = Math.round(_.carousel.offsetWidth / _.slides[0].offsetWidth);\n    _.maxIndex = 0;\n    _.isEnabled = 1;\n    _.carousel.className += \" purejscarousel\"; //create slides container\n\n    _.slidesContainer = document.createElement(\"div\");\n\n    _.carousel.insertBefore(_.slidesContainer, _.slides[0]);\n\n    _.slidesContainer.className += \" purejscarousel-slides-container\";\n\n    if (_.infinite === true) {\n      _.currentXPos = -(_.slides[0].offsetWidth * _.slides.length);\n      _.slidesContainer.style.transform = \"translateX(\" + _.currentXPos + \"px)\";\n      _.slidesContainer.style.width = _.slides[0].offsetWidth * _.slides.length * 3 + \"px\";\n    } else {\n      _.currentXPos = 0;\n      _.slidesContainer.style.transform = \"translateX(0px)\";\n      _.slidesContainer.style.width = _.slides[0].offsetWidth * _.slides.length + \"px\";\n    }\n\n    if (\"ontouchstart\" in window || navigator.maxTouchPoints) {\n      _.slidesContainer.addEventListener(\"touchstart\", function (event) {\n        this.setAttribute(\"data-start-touch-x\", event.targetTouches[0].pageX);\n        this.setAttribute(\"data-start-margin\", parseInt(_.currentXPos));\n      });\n\n      _.slidesContainer.addEventListener(\"touchmove\", function (event) {\n        this.setAttribute(\"data-active-touch-x\", event.targetTouches[0].pageX);\n        _.currentXPos = parseInt(this.getAttribute(\"data-start-margin\")) + (parseInt(this.getAttribute(\"data-active-touch-x\")) - parseInt(this.getAttribute(\"data-start-touch-x\")));\n        this.style.transform = \"translateX(\" + _.currentXPos + \"px)\";\n      });\n\n      _.slidesContainer.addEventListener(\"touchend\", function () {\n        var direction = parseInt(this.getAttribute(\"data-active-touch-x\")) - parseInt(this.getAttribute(\"data-start-touch-x\")) > 0 ? \"prev\" : \"next\",\n            blockWidth = _.oneByOne === true ? _.slides[0].offsetWidth : _.carousel.offsetWidth;\n\n        if (Math.abs(parseInt(this.getAttribute(\"data-active-touch-x\")) - parseInt(this.getAttribute(\"data-start-touch-x\"))) >= blockWidth / 2) {\n          if (_.infinite === true) {\n            direction === \"next\" ? _.goToNextSlide() : _.goToPrevSlide();\n          } else {\n            if (direction === \"next\" && _.activeIndex < _.maxIndex || direction === \"prev\" && _.activeIndex > 0) {\n              direction === \"next\" ? _.goToNextSlide() : _.goToPrevSlide();\n            } else {\n              if (_.slidesContainer.style.transition !== \"undefined\") {\n                _.slidesContainer.style.transition = \"transform \" + _.speed + \"ms\" + \" \" + _.effect + \" \" + _.delay + \"ms\";\n              }\n\n              _.currentXPos = parseInt(this.getAttribute(\"data-start-margin\"));\n              _.slidesContainer.style.transform = \"translateX(\" + _.currentXPos + \"px)\";\n\n              if (_.slidesContainer.style.transition === \"undefined\") {\n                if (_.slidesContainer.style.transition !== \"undefined\") {\n                  _.slidesContainer.style.transition = null;\n                }\n              } else {\n                setTimeout(function () {\n                  if (_.slidesContainer.style.transition !== \"undefined\") {\n                    _.slidesContainer.style.transition = null;\n                  }\n                }, _.speed + _.delay);\n              }\n            }\n          }\n        } else {\n          if (_.slidesContainer.style.transition !== \"undefined\") {\n            _.slidesContainer.style.transition = \"transform \" + _.speed + \"ms\" + \" \" + _.effect + \" \" + _.delay + \"ms\";\n          }\n\n          _.currentXPos = parseInt(this.getAttribute(\"data-start-margin\"));\n          _.slidesContainer.style.transform = \"translateX(\" + _.currentXPos + \"px)\";\n\n          if (_.slidesContainer.style.transition === \"undefined\") {\n            if (_.slidesContainer.style.transition !== \"undefined\") {\n              _.slidesContainer.style.transition = null;\n            }\n          } else {\n            setTimeout(function () {\n              if (_.slidesContainer.style.transition !== \"undefined\") {\n                _.slidesContainer.style.transition = null;\n              }\n            }, _.speed + _.delay);\n          }\n        }\n      });\n    } //create slides dots\n\n\n    _.dotsContainer = document.createElement(\"div\");\n\n    _.carousel.insertBefore(_.dotsContainer, _.slides[0]);\n\n    _.dotsContainer.className += \" purejscarousel-dots-container\";\n    _.dots = [];\n\n    if (_.oneByOne === true) {\n      if (_.infinite === true) {\n        dotsLength = _.slides.length;\n      } else {\n        dotsLength = (_.slidesContainer.offsetWidth - _.carousel.offsetWidth) / _.slides[0].offsetWidth + 1;\n      }\n    } else {\n      if (_.infinite === true) {\n        dotsLength = Math.ceil(_.slidesContainer.offsetWidth / _.carousel.offsetWidth / 3);\n      } else {\n        dotsLength = Math.ceil(_.slidesContainer.offsetWidth / _.carousel.offsetWidth);\n      }\n    }\n\n    for (i = 0; i < dotsLength; i++) {\n      var dot = document.createElement(\"button\");\n      dot.className = \"purejscarousel-dot\" + (i === 0 ? \" active\" : \"\");\n      dot.setAttribute(\"data-index\", i);\n      dot.setAttribute(\"type\", \"button\");\n      addDotEventListener(dot, _);\n\n      _.dots.push(dot);\n\n      _.dotsContainer.appendChild(dot);\n    }\n\n    _.maxIndex = dotsLength - 1; //create carousel btn-prev\n\n    if (!_.btnPrev) {\n      _.btnPrev = document.createElement(\"button\");\n\n      _.btnPrev.setAttribute(\"class\", \"\");\n\n      _.btnPrev.setAttribute(\"type\", \"button\");\n\n      _.btnPrev.setAttribute(\"data-is-native\", 0);\n\n      _.carousel.insertBefore(_.btnPrev, _.slides[0]);\n    } else {\n      _.btnPrev.setAttribute(\"data-is-native\", 1);\n    }\n\n    _.btnPrev.className += \" purejscarousel-btn purejscarousel-btn-prev\";\n\n    if (window.addEventListener) {\n      _.btnPrev.addEventListener(\"click\", function () {\n        _.goToPrevSlide();\n      });\n    } else if (window.attachEvent) {\n      _.btnPrev.attachEvent(\"onclick\", function () {\n        _.goToPrevSlide();\n      });\n    } else {\n      _.btnPrev.onclick = function () {\n        _.goToPrevSlide();\n      };\n    }\n\n    if (_.activeIndex === 0) {\n      _.btnPrev.disabled = true;\n    } //create carousel btn-next\n\n\n    if (!_.btnNext) {\n      _.btnNext = document.createElement(\"button\");\n\n      _.btnNext.setAttribute(\"class\", \"\");\n\n      _.btnNext.setAttribute(\"type\", \"button\");\n\n      _.btnNext.setAttribute(\"data-is-native\", 0);\n\n      _.carousel.insertBefore(_.btnNext, _.slides[0]);\n    } else {\n      _.btnNext.setAttribute(\"data-is-native\", 1);\n    }\n\n    _.btnNext.className += \" purejscarousel-btn purejscarousel-btn-next\";\n\n    if (window.addEventListener) {\n      _.btnNext.addEventListener(\"click\", function () {\n        _.goToNextSlide();\n      });\n    } else if (window.attachEvent) {\n      _.btnNext.attachEvent(\"onclick\", function () {\n        _.goToNextSlide();\n      });\n    } else {\n      _.btnNext.onclick = function () {\n        _.goToNextSlide();\n      };\n    }\n\n    if (_.activeIndex === _.maxIndex) {\n      _.btnNext.disabled = true;\n    } //build slides\n\n\n    for (i = 0; i < _.slides.length; i++) {\n      _.slides[i].className += \" purejscarousel-slide\";\n\n      _.slidesContainer.appendChild(_.slides[i]);\n    }\n\n    if (_.infinite === true) {\n      for (i = 0; i < _.slides.length; i++) {\n        var slideClone = _.slides[i].cloneNode(true);\n\n        slideClone.className += \" purejscarousel-slide-clone\";\n\n        _.slidesContainer.appendChild(slideClone);\n      }\n\n      for (i = 0; i < _.slides.length; i++) {\n        var slideClone = _.slides[i].cloneNode(true);\n\n        slideClone.className += \" purejscarousel-slide-clone\";\n\n        _.slidesContainer.insertBefore(slideClone, _.slidesContainer.querySelectorAll(\".purejscarousel-slide\")[i]);\n      }\n    }\n\n    if (window.addEventListener) {\n      window.addEventListener(\"resize\", windowResize);\n    } else if (window.attachEvent) {\n      window.attachEvent(\"onresize\", windowResize);\n    } else {\n      window.onresize = windowResize;\n    }\n\n    _.autoplayTimer = _.autoplay === true ? _.autoplayDirection === \"next\" ? setTimeout(function () {\n      _.goToNextSlide();\n    }, _.autoplayDelay) : setTimeout(function () {\n      _.goToPrevSlide();\n    }, _.autoplayDelay) : null;\n\n    function addDotEventListener(d, c) {\n      if (window.addEventListener) {\n        d.addEventListener(\"click\", function () {\n          c.goToSlide(parseInt(this.getAttribute(\"data-index\")));\n        });\n      } else if (window.attachEvent) {\n        d.attachEvent(\"onclick\", function () {\n          c.goToSlide(parseInt(this.getAttribute(\"data-index\")));\n        });\n      } else {\n        d.onclick = function () {\n          c.goToSlide(parseInt(this.getAttribute(\"data-index\")));\n        };\n      }\n    }\n\n    function windowResize() {\n      if (window.innerWidth !== windowWidth || window.innerHeight !== windowHeight) {\n        clearTimeout(windowResizeTimeout);\n        windowResizeTimeout = setTimeout(function () {\n          _.destroy();\n\n          _.build();\n        }, 400);\n      }\n    }\n  };\n\n  PureJSCarousel.prototype.enableControl = function () {\n    var i;\n    this.btnNext.disabled = false;\n    this.btnPrev.disabled = false;\n\n    for (i = 0; i < this.dots.length; i++) {\n      this.dots[i].disabled = false;\n    }\n\n    this.dots[this.activeIndex].disabled = true;\n\n    if (this.infinite === false) {\n      if (this.activeIndex === this.maxIndex) {\n        this.btnNext.disabled = true;\n      }\n\n      if (this.activeIndex === 0) {\n        this.btnPrev.disabled = true;\n      }\n    }\n\n    if (\"ontouchstart\" in window || navigator.maxTouchPoints) {\n      this.slidesContainer.disabled = false;\n    }\n  };\n\n  PureJSCarousel.prototype.disableControl = function () {\n    var i;\n    this.btnNext.disabled = true;\n    this.btnPrev.disabled = true;\n\n    for (i = 0; i < this.dots.length; i++) {\n      this.dots[i].disabled = true;\n    }\n\n    if (\"ontouchstart\" in window || navigator.maxTouchPoints) {\n      this.slidesContainer.disabled = true;\n    }\n  };\n\n  PureJSCarousel.prototype.goToNextSlide = function () {\n    var newActiveIndex;\n\n    if (this.btnNext.disabled === false) {\n      if (this.infinite === true) {\n        newActiveIndex = this.activeIndex + 1 > this.maxIndex ? 0 : this.activeIndex + 1;\n      } else {\n        newActiveIndex = this.activeIndex + 1;\n      }\n\n      this.goToSlide(newActiveIndex, \"next\", \"dirBtn\");\n    }\n  };\n\n  PureJSCarousel.prototype.goToPrevSlide = function () {\n    var newActiveIndex;\n\n    if (this.btnPrev.disabled === false) {\n      if (this.infinite === true) {\n        newActiveIndex = this.activeIndex - 1 < 0 ? this.maxIndex : this.activeIndex - 1;\n      } else {\n        newActiveIndex = this.activeIndex - 1;\n      }\n\n      this.goToSlide(newActiveIndex, \"prev\", \"dirBtn\");\n    }\n  };\n\n  PureJSCarousel.prototype.goToSlide = function (n, dir, trigger) {\n    var _ = this,\n        direction = dir ? dir : n > this.activeIndex ? \"next\" : \"prev\",\n        slidesContainerWidth = this.slidesContainer.offsetWidth / (this.infinite === true ? 3 : 1),\n        blockWidth = this.oneByOne === true ? this.slides[0].offsetWidth : this.carousel.offsetWidth,\n        currentPos = this.infinite === true ? -slidesContainerWidth : Math.max(-blockWidth * this.activeIndex, this.minPos),\n        scrollWidth = trigger === \"dirBtn\" ? blockWidth : Math.abs(blockWidth * (this.activeIndex - n)),\n        slidesCount,\n        newPos;\n\n    if (this.oneByOne === false && (direction === \"next\" && n === this.maxIndex || direction === \"prev\" && this.activeIndex === this.maxIndex)) {\n      scrollWidth = scrollWidth + slidesContainerWidth - (this.maxIndex + 1) * blockWidth;\n    }\n\n    slidesCount = scrollWidth / this.slides[0].offsetWidth;\n\n    if (this.infinite === true) {\n      newPos = direction === \"next\" ? currentPos - scrollWidth : currentPos + scrollWidth;\n    } else {\n      newPos = direction === \"next\" ? Math.max(this.minPos, currentPos - scrollWidth) : Math.min(0, currentPos + scrollWidth);\n    }\n\n    this.disableControl();\n\n    if (\"transition\" in document.body.style) {\n      this.slidesContainer.style.transition = \"transform \" + this.speed + \"ms\" + \" \" + this.effect + \" \" + this.delay + \"ms\";\n    }\n\n    _.currentXPos = newPos;\n    this.slidesContainer.style.transform = \"translateX(\" + _.currentXPos + \"px)\";\n\n    if (\"transition\" in document.body.style) {\n      this.slidesContainer.addEventListener(\"transitionend\", scrollEnd);\n    } else {\n      scrollEnd();\n    }\n\n    function scrollEnd() {\n      var i;\n\n      if (\"transition\" in document.body.style) {\n        _.slidesContainer.style.transition = null;\n\n        _.slidesContainer.removeEventListener(\"transitionend\", scrollEnd);\n      }\n\n      _.dots[_.activeIndex].className = _.dots[_.activeIndex].className.replace(\" active\", \"\");\n      _.activeIndex = n;\n      _.dots[_.activeIndex].className += \" active\";\n\n      if (_.infinite === true) {\n        for (i = 0; i < slidesCount; i++) {\n          if (direction === \"next\") {\n            _.slidesContainer.appendChild(_.slidesContainer.children[0]);\n          } else {\n            _.slidesContainer.insertBefore(_.slidesContainer.lastElementChild, _.slidesContainer.children[0]);\n          }\n        }\n\n        _.currentXPos = -(_.slidesContainer.offsetWidth / 3);\n        _.slidesContainer.style.transform = \"translateX(\" + _.currentXPos + \"px)\";\n      }\n\n      _.enableControl();\n\n      _.autoplayTimer = _.autoplay === true ? _.autoplayDirection === \"next\" ? setTimeout(function () {\n        _.goToNextSlide();\n      }, _.autoplayDelay) : setTimeout(function () {\n        _.goToPrevSlide();\n      }, _.autoplayDelay) : null;\n    }\n  };\n\n  PureJSCarousel.prototype.startAutoplay = function () {\n    _.enableControl();\n\n    _.autoplayTimer = _.autoplay === true ? _.autoplayDirection === \"next\" ? setTimeout(function () {\n      _.goToNextSlide();\n    }, _.autoplayDelay) : setTimeout(function () {\n      _.goToPrevSlide();\n    }, _.autoplayDelay) : null;\n  };\n\n  PureJSCarousel.prototype.stopAutoplay = function () {\n    if (_.autoplay === true) {\n      clearTimeout(_.autoplayTimer);\n      _.autoplayTimer = null;\n    }\n  };\n\n  PureJSCarousel.prototype.destroy = function () {\n    var slideClones, i;\n\n    if (this.isEnabled === 1) {\n      this.isEnabled = 0;\n      this.carousel.className = this.carousel.className.replace(\" purejscarousel\", \"\");\n      this.carousel.removeChild(this.dotsContainer);\n\n      if (this.btnNext.getAttribute(\"data-is-native\").toString() === \"1\") {\n        this.btnNext.className = this.btnNext.className.replace(\" purejscarousel-btn purejscarousel-btn-next\", \"\");\n      } else {\n        this.carousel.removeChild(this.btnNext);\n        this.btnNext = null;\n      }\n\n      if (this.btnPrev.getAttribute(\"data-is-native\").toString() === \"1\") {\n        this.btnPrev.className = this.btnPrev.className.replace(\" purejscarousel-btn purejscarousel-btn-prev\", \"\");\n      } else {\n        this.carousel.removeChild(this.btnPrev);\n        this.btnPrev = null;\n      }\n\n      if (this.infinite === true) {\n        slideClones = this.carousel.querySelectorAll(\".purejscarousel-slide-clone\");\n\n        for (i = 0; i < slideClones.length; i++) {\n          slideClones[i].parentNode.removeChild(slideClones[i]);\n        }\n      }\n\n      for (i = 0; i < this.slides.length; i++) {\n        this.slides[i].className = this.slides[i].className.replace(\" pure-js-carousel-slide\", \"\");\n        this.carousel.insertBefore(this.slides[i], this.slidesContainer);\n      }\n\n      this.carousel.removeChild(this.slidesContainer);\n      this.minPos = null;\n      this.slidesToShow = null;\n      this.maxIndex = null;\n      this.isEnabled = null;\n\n      if (this.autoplay === true) {\n        clearTimeout(this.autoplayTimer);\n        this.autoplayTimer = null;\n      }\n    }\n  };\n})();\n\nvar yourVariable = new PureJSCarousel({\n  carousel: '.carousel',\n  slide: '.carousel-slide'\n});\n\n//# sourceURL=webpack://my-webpack-project/./src/scripts/carousel.js?");
+
+/***/ }),
+
+/***/ "./src/styles/common.scss":
+/*!********************************!*\
+  !*** ./src/styles/common.scss ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://my-webpack-project/./src/styles/common.scss?");
+
+/***/ }),
+
+/***/ "./src/styles/components/buttons/buttons.scss":
+/*!****************************************************!*\
+  !*** ./src/styles/components/buttons/buttons.scss ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://my-webpack-project/./src/styles/components/buttons/buttons.scss?");
+
+/***/ }),
+
+/***/ "./src/styles/components/carousel/carousel.scss":
+/*!******************************************************!*\
+  !*** ./src/styles/components/carousel/carousel.scss ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://my-webpack-project/./src/styles/components/carousel/carousel.scss?");
+
+/***/ }),
+
+/***/ "./src/styles/components/faq/faq.scss":
+/*!********************************************!*\
+  !*** ./src/styles/components/faq/faq.scss ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://my-webpack-project/./src/styles/components/faq/faq.scss?");
+
+/***/ }),
+
+/***/ "./src/styles/components/faq_block/faq_block.scss":
+/*!********************************************************!*\
+  !*** ./src/styles/components/faq_block/faq_block.scss ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://my-webpack-project/./src/styles/components/faq_block/faq_block.scss?");
+
+/***/ }),
+
+/***/ "./src/styles/components/faq_page/faq_page.scss":
+/*!******************************************************!*\
+  !*** ./src/styles/components/faq_page/faq_page.scss ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://my-webpack-project/./src/styles/components/faq_page/faq_page.scss?");
+
+/***/ }),
+
+/***/ "./src/styles/components/main_banner/main_banner.scss":
+/*!************************************************************!*\
+  !*** ./src/styles/components/main_banner/main_banner.scss ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://my-webpack-project/./src/styles/components/main_banner/main_banner.scss?");
+
+/***/ }),
+
+/***/ "./src/styles/components/reference/reference.scss":
+/*!********************************************************!*\
+  !*** ./src/styles/components/reference/reference.scss ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://my-webpack-project/./src/styles/components/reference/reference.scss?");
+
+/***/ }),
+
+/***/ "./src/styles/components/socs/socs.scss":
+/*!**********************************************!*\
+  !*** ./src/styles/components/socs/socs.scss ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://my-webpack-project/./src/styles/components/socs/socs.scss?");
+
+/***/ }),
+
+/***/ "./src/styles/font.scss":
+/*!******************************!*\
+  !*** ./src/styles/font.scss ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://my-webpack-project/./src/styles/font.scss?");
+
+/***/ }),
+
+/***/ "./src/styles/grid.scss":
+/*!******************************!*\
+  !*** ./src/styles/grid.scss ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://my-webpack-project/./src/styles/grid.scss?");
+
+/***/ }),
+
+/***/ "./src/styles/normalize.scss":
+/*!***********************************!*\
+  !*** ./src/styles/normalize.scss ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://my-webpack-project/./src/styles/normalize.scss?");
+
+/***/ }),
+
+/***/ "./src/styles/variables.scss":
+/*!***********************************!*\
+  !*** ./src/styles/variables.scss ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://my-webpack-project/./src/styles/variables.scss?");
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module can't be inlined because the eval devtool is used.
+/******/ 	var __webpack_exports__ = __webpack_require__("./src/index.js");
+/******/ 	
+/******/ })()
+;
